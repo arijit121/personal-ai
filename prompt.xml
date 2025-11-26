@@ -1,0 +1,269 @@
+<Project>
+  <Metadata>
+    <Name>Bella AI Companion — Gemini Pro 3 Edition</Name>
+    <Version>3.1</Version>
+    <Description>
+      Full Bella AI system using Google Gemini Pro 3 API for LLM, Vision,
+      Speech, and Video generation. Includes dynamic video-expression engine,
+      Material Design 3 Pink UI, no AppBar, Node.js backend, complete
+      front-end integration, and full multi-device responsive design
+      across Mobile, Tablet, Desktop, and TV screens.
+    </Description>
+    <Author>AI Code Generator</Author>
+  </Metadata>
+
+  <!-- =========================== GEMINI CONFIG ============================ -->
+
+  <GeminiAPI>
+    <Provider>Google Gemini Pro 3</Provider>
+    <APIKey>${GEMINI_API_KEY}</APIKey>
+
+    <Models>
+      <ChatModel>gemini-pro-3</ChatModel>
+      <VisionModel>gemini-pro-3-vision</VisionModel>
+      <AudioModel>gemini-pro-3-audio</AudioModel>
+      <VideoModel>gemini-pro-3-video</VideoModel>
+    </Models>
+
+    <Endpoints>
+      <Chat>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3:generateContent</Chat>
+      <Vision>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-vision:generateContent</Vision>
+      <Audio>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-audio:generateContent</Audio>
+      <Video>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-video:generateContent</Video>
+    </Endpoints>
+
+    <RequestFormat>
+      <ChatRequest>
+        { "contents":[{"parts":[{"text":"USER_MESSAGE"}]}] }
+      </ChatRequest>
+
+      <AudioRequest>
+        { "contents":[{"parts":[{"text":"TRANSCRIBE_AUDIO"}]}] }
+      </AudioRequest>
+
+      <VisionRequest>
+        {
+          "contents":[{
+            "parts":[
+              {"text":"ANALYZE_IMAGE"},
+              {"inline_data":{"mime_type":"image/png","data":"BASE64_IMAGE"}}
+            ]
+          }]
+        }
+      </VisionRequest>
+
+      <VideoRequest>
+        { "contents":[{"parts":[{"text":"VIDEO_GENERATION_PROMPT"}]}] }
+      </VideoRequest>
+    </RequestFormat>
+  </GeminiAPI>
+
+  <!-- =========================== BACKEND ============================ -->
+
+  <Backend>
+    <Language>Node.js (Express)</Language>
+    <Port>8081</Port>
+
+    <Files>
+      <File>server.js</File>
+      <File>geminiClient.js</File>
+      <File>routes/chat.js</File>
+      <File>routes/audio.js</File>
+      <File>routes/video.js</File>
+    </Files>
+
+    <ChatFlow>
+      <Input>Text or microphone audio</Input>
+      <Pipeline>
+        <Step1>Send user message to Gemini Pro 3 chat model</Step1>
+        <Step2>Receive text reply</Step2>
+        <Step3>Optionally generate TTS audio via Gemini Pro 3 Audio</Step3>
+        <Step4>Frontend plays animation + audio + text</Step4>
+      </Pipeline>
+    </ChatFlow>
+
+    <Endpoints>
+      <Chat>
+        <Path>/api/chat</Path>
+        <Method>POST</Method>
+        <Output>{ "reply": "...", "emotion": "..." }</Output>
+      </Chat>
+
+      <ASR>
+        <Path>/api/asr</Path>
+        <Method>POST</Method>
+        <Output>{ "text": "..." }</Output>
+      </ASR>
+
+      <VideoGen>
+        <Path>/api/generate-video</Path>
+        <Method>POST</Method>
+        <Description>Generates new videos using Gemini Pro 3 Video Model.</Description>
+      </VideoGen>
+    </Endpoints>
+  </Backend>
+
+  <!-- =================== VIDEO EXPRESSION ENGINE =================== -->
+
+  <VideoExpressionEngine>
+    <Folder>assets/video/</Folder>
+    <CrossFade>true</CrossFade>
+    <CrossFadeDuration>650ms</CrossFadeDuration>
+    <Mute>true</Mute>
+    <Resolution>1080p</Resolution>
+
+    <Assets>
+      <Video name="hello">Say-hello.mp4</Video>
+      <Video name="sad">Sadness.mp4</Video>
+      <Video name="angry">Hands-on-hips-muttering-to-himself-looking-slightly-angry.mp4</Video>
+      <Video name="thinking">Looking-thoughtful-hand-on-chin.mp4</Video>
+      <Video name="dance">Generate-dance-video.mp4</Video>
+      <Video name="refuel">Generate-refueling-video.mp4</Video>
+      <Video name="3d">3D-modeling-image-creation.mp4</Video>
+      <Video name="smile-sway">Swaying-gracefully-with-a-smile.mp4</Video>
+      <Video name="peace-sway">Make-a-peace-sign-then-smile-and-sway-gracefully-from-side-to-side.mp4</Video>
+      <Video name="speech">The-standard-is-that-the-main-image-is-a-digital-human-speaking.mp4</Video>
+      <Video name="affirm">The-main-image-is-a-digital-human-confirming-with-an-elegant-slight-nod.mp4</Video>
+      <Video name="laugh">The-main-image-is-a-digital-human-laughing-happily-while-maintaining-elegance.mp4</Video>
+      <Video name="encourage">The-main-image-is-a-digital-human-used-to-affirm-and-encourage-user-performance-and-achievements-maintaining-elegance.mp4</Video>
+      <Video name="smile-sway-long1">Smilingly-and-gracefully-swaying-from-side-to-side-after-a-while-he-rests-his-hand-on-his-chin-maintaining-a-smile.mp4</Video>
+      <Video name="smile-sway-long2">Smilingly-and-gracefully-swaying-from-side-to-side-after-a-while-resting-his-hand-on-his-chin-maintaining-a-smile.mp4</Video>
+    </Assets>
+
+    <EmotionMapping>
+      <Happy>smile-sway, laugh, affirm</Happy>
+      <Greeting>hello</Greeting>
+      <Thinking>thinking</Thinking>
+      <Sad>sad</Sad>
+      <Angry>angry</Angry>
+      <Supportive>encourage</Supportive>
+      <Creative>3d</Creative>
+      <Dance>dance</Dance>
+    </EmotionMapping>
+  </VideoExpressionEngine>
+
+  <!-- ============================= FRONTEND ============================= -->
+
+  <Frontend>
+    <Framework>Vanilla JS (no AppBar)</Framework>
+
+    <MaterialTheme>
+      <Mode>Material 3</Mode>
+      <Color>Pink</Color>
+      <Primary>#E91E63</Primary>
+      <Surface>#FFF1F5</Surface>
+      <Controls>Rounded 24px</Controls>
+    </MaterialTheme>
+
+    <UI>
+      <Remove>AppBar</Remove>
+      <ChatWindow>M3 SurfaceContainer High</ChatWindow>
+      <InputField>Rounded, elevated, pink outline</InputField>
+      <VideoPanel>Rounded, crossfade enabled</VideoPanel>
+    </UI>
+
+    <JavaScriptModules>
+      <Module>videoEngine.js</Module>
+      <Module>chatEngine.js</Module>
+      <Module>geminiClient.js</Module>
+    </JavaScriptModules>
+  </Frontend>
+
+  <!-- =============================== AI LOGIC =============================== -->
+
+  <AILogic>
+    <EmotionDetector>
+      <Source>Gemini Pro 3 (text-based emotion recognition)</Source>
+      <MapsToVideo>true</MapsToVideo>
+    </EmotionDetector>
+
+    <ConversationStyle>
+      <Tone>Warm, helpful, elegant</Tone>
+      <Memory>Short-term (last 5 messages)</Memory>
+      <Persona>Bella — elegant supportive digital companion</Persona>
+    </ConversationStyle>
+  </AILogic>
+
+  <!-- ======================= RESPONSIVE VIEW SYSTEM ======================= -->
+
+  <ResponsiveViews>
+    <Breakpoints>
+      <Mobile maxWidth="599"/>
+      <Tablet minWidth="600" maxWidth="1023"/>
+      <Desktop minWidth="1024" maxWidth="1919"/>
+      <TV minWidth="1920"/>
+    </Breakpoints>
+
+    <Mobile>
+      <Layout>
+        <Type>Single-column</Type>
+        <VideoMaxHeight>28vh</VideoMaxHeight>
+        <VideoPosition>Bottom</VideoPosition>
+        <InputSticky>true</InputSticky>
+      </Layout>
+      <Assets>
+        <VideoQuality>480p</VideoQuality>
+        <Preload>EssentialOnly</Preload>
+      </Assets>
+      <Interaction>
+        <TouchOptimized>true</TouchOptimized>
+      </Interaction>
+    </Mobile>
+
+    <Tablet>
+      <Layout>
+        <Type>Two-column</Type>
+        <VideoPanel>Left</VideoPanel>
+        <ChatPanel>Right</ChatPanel>
+      </Layout>
+      <Assets>
+        <VideoQuality>720p</VideoQuality>
+      </Assets>
+    </Tablet>
+
+    <Desktop>
+      <Layout>
+        <Type>Grid</Type>
+        <Columns>VideoPanel | ChatWindow | Sidebar</Columns>
+      </Layout>
+      <Assets>
+        <VideoQuality>1080p</VideoQuality>
+      </Assets>
+      <KeyboardShortcuts>
+        <Send>Enter</Send>
+        <Record>Ctrl+M</Record>
+      </KeyboardShortcuts>
+    </Desktop>
+
+    <TV>
+      <Layout>
+        <Type>Cinematic</Type>
+        <VideoHeight>75vh</VideoHeight>
+      </Layout>
+      <Assets>
+        <VideoQuality>2160p</VideoQuality>
+        <Preload>AllImportantVideos</Preload>
+      </Assets>
+      <Interaction>
+        <RemoteNavigation>true</RemoteNavigation>
+        <GamepadSupport>true</GamepadSupport>
+      </Interaction>
+    </TV>
+
+    <CSSTokens>
+      <TypographyScale>
+        <Mobile>1.0</Mobile>
+        <Tablet>1.05</Tablet>
+        <Desktop>1.1</Desktop>
+        <TV>1.6</TV>
+      </TypographyScale>
+      <Spacing unit="px">
+        <Mobile>12</Mobile>
+        <Tablet>16</Tablet>
+        <Desktop>20</Desktop>
+        <TV>32</TV>
+      </Spacing>
+    </CSSTokens>
+  </ResponsiveViews>
+
+</Project>

@@ -1,0 +1,25 @@
+{
+    "name": "bella-ai-companion",
+    "version": "3.0.0",
+    "description": "Bella AI Companion — Gemini Pro 3 Edition",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node --watch server.js"
+    },
+    "keywords": [
+        "ai",
+        "gemini",
+        "companion",
+        "digital-human"
+    ],
+    "author": "AI Code Generator",
+    "license": "ISC",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "multer": "^1.4.5-lts.1",
+        "node-fetch": "^3.3.2"
+    }
+}

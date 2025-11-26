@@ -1,0 +1,333 @@
+:root {
+    --primary-color: #E91E63;
+    --surface-color: #FFF1F5;
+    --surface-container-high: rgba(255, 241, 245, 0.9);
+    --on-surface: #1f1f1f;
+    --outline: #E91E63;
+
+    /* Typography Scale & Spacing Defaults (Mobile) */
+    --type-scale: 1.0;
+    --spacing-unit: 12px;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+    background-color: #000;
+    font-size: calc(16px * var(--type-scale));
+}
+
+#app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Video Layer */
+#video-container {
+    position: relative;
+    width: 100%;
+    background-color: #000;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.65s ease-in-out;
+}
+
+/* UI Layer */
+#ui-layer {
+    position: relative;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--spacing-unit);
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+#chat-container {
+    pointer-events: auto;
+    width: 100%;
+    max-width: 100%;
+    background-color: var(--surface-container-high);
+    border-radius: 24px;
+    padding: var(--spacing-unit);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+#messages-area {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 10px;
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+}
+
+.message.user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.message.ai,
+.message.system {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.bubble {
+    padding: 12px 16px;
+    border-radius: 18px;
+    line-height: 1.4;
+}
+
+.message.user .bubble {
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.ai .bubble,
+.message.system .bubble {
+    background-color: white;
+    color: var(--on-surface);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-bottom-left-radius: 4px;
+}
+
+#input-area {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 30px;
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    padding: 12px 20px;
+    border-radius: 24px;
+    border: 2px solid var(--outline);
+    background-color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.2s;
+}
+
+input[type="text"]:focus {
+    box-shadow: 0 0 0 4px rgba(233, 30, 99, 0.2);
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: var(--primary-color);
+}
+
+.icon-btn:hover {
+    background-color: rgba(233, 30, 99, 0.1);
+}
+
+.icon-btn.primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.icon-btn.primary:hover {
+    background-color: #d81b60;
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* Mobile (<600px) - Video Fullscreen, Chat Overlay */
+@media (max-width: 599px) {
+    :root {
+        --type-scale: 1.0;
+        --spacing-unit: 12px;
+    }
+
+    #app-container {
+        flex-direction: column;
+    }
+
+    #video-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 1;
+    }
+
+    #ui-layer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        z-index: 2;
+        justify-content: flex-end;
+    }
+
+    #chat-container {
+        border-radius: 24px 24px 0 0;
+        max-height: 70vh;
+    }
+}
+
+/* Tablet (600px - 1023px) */
+@media (min-width: 600px) and (max-width: 1023px) {
+    :root {
+        --type-scale: 1.05;
+        --spacing-unit: 16px;
+    }
+
+    #app-container {
+        flex-direction: row;
+    }
+
+    #video-container {
+        width: 50%;
+        height: 100%;
+    }
+
+    #ui-layer {
+        width: 50%;
+        height: 100%;
+        padding: 20px;
+    }
+
+    #chat-container {
+        height: 100%;
+        border-radius: 24px;
+    }
+}
+
+/* Desktop (1024px - 1919px) */
+@media (min-width: 1024px) and (max-width: 1919px) {
+    :root {
+        --type-scale: 1.1;
+        --spacing-unit: 20px;
+    }
+
+    #app-container {
+        flex-direction: row;
+        justify-content: center;
+        background-color: #121212;
+    }
+
+    #video-container {
+        width: 60%;
+        height: 100%;
+        max-width: 1200px;
+    }
+
+    video {
+        object-fit: contain;
+    }
+
+    #ui-layer {
+        width: 40%;
+        max-width: 500px;
+        height: 100%;
+        padding: 40px;
+    }
+}
+
+/* TV (>1920px) */
+@media (min-width: 1920px) {
+    :root {
+        --type-scale: 1.6;
+        --spacing-unit: 32px;
+    }
+
+    #app-container {
+        flex-direction: column;
+    }
+
+    #video-container {
+        height: 75vh;
+    }
+
+    video {
+        object-fit: contain;
+    }
+
+    #ui-layer {
+        height: 25vh;
+        padding: 0 10vw;
+    }
+
+    #chat-container {
+        flex-direction: row;
+        align-items: center;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    #messages-area {
+        display: flex;
+        position: absolute;
+        bottom: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-height: 20vh;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 20px;
+        padding: 20px;
+        color: white;
+    }
+
+    .message.user .bubble {
+        background-color: rgba(233, 30, 99, 0.8);
+    }
+
+    .message.ai .bubble {
+        background-color: rgba(255, 255, 255, 0.9);
+        color: black;
+    }
+
+    #input-area {
+        display: none;
+    }
+}

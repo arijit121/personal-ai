@@ -1,0 +1,38 @@
+# Task List
+
+- [x] Initialize Project
+    - [x] Create `package.json`
+    - [x] Install dependencies (`express`, `cors`, `dotenv`, `multer`, `node-fetch`)
+- [x] Backend Implementation
+    - [x] Create `server.js`
+    - [x] Create `geminiClient.js`
+    - [x] Create `routes/chat.js`
+    - [x] Create `routes/audio.js`
+    - [x] Create `routes/video.js`
+- [x] Frontend Implementation
+    - [x] Create `public/index.html`
+    - [x] Create `public/css/style.css`
+    - [x] Create `public/js/videoEngine.js`
+    - [x] Create `public/js/chatEngine.js`
+    - [x] Create `public/js/main.js`
+- [x] Verification
+    - [x] Start server and verify UI
+    - [x] Verify video playback
+    - [x] Verify chat interaction
+- [x] Responsive Design Implementation
+    - [x] Update `implementation_plan.md`
+    - [x] Update `public/css/style.css`
+    - [x] Update `public/index.html`
+    - [x] Update `public/js/chatEngine.js`
+- [x] Strict Video Ratio Implementation
+    - [x] Update `implementation_plan.md`
+    - [x] Update `public/index.html` structure
+    - [x] Update `public/css/style.css` with Universal and Device Specific CSS
+- [x] Revert to Responsive Design 3.1
+    - [x] Update `implementation_plan.md`
+    - [x] Revert `public/index.html` structure
+    - [x] Update `public/css/style.css` to match prompt.xml requirements
+- [x] Mobile Layout Update
+    - [x] Update `prompt.xml`
+    - [x] Update `implementation_plan.md`
+    - [x] Update `public/css/style.css` for bottom video
