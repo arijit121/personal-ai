@@ -1,6 +1,7 @@
 export class ChatEngine {
     constructor(videoEngine) {
         this.videoEngine = videoEngine;
+        this.inputArea = document.getElementById('input-area');
         this.chatContainer = document.getElementById('messages-area');
         this.textInput = document.getElementById('text-input');
         this.sendBtn = document.getElementById('send-btn');
@@ -70,6 +71,9 @@ export class ChatEngine {
                 this.listeningOverlay.style.display = 'flex';
                 this.lottieAnimation.play();
             }
+            if (this.inputArea) {
+                this.inputArea.style.display = 'none';
+            }
         };
 
         this.recognition.onresult = (event) => {
@@ -106,6 +110,9 @@ export class ChatEngine {
         if (this.listeningOverlay) {
             this.listeningOverlay.style.display = 'none';
             this.lottieAnimation.stop();
+        }
+        if (this.inputArea) {
+            this.inputArea.style.display = 'flex';
         }
     }
 
