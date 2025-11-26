@@ -5,6 +5,16 @@ export class ChatEngine {
         this.textInput = document.getElementById('text-input');
         this.sendBtn = document.getElementById('send-btn');
         this.micBtn = document.getElementById('mic-btn');
+        this.listeningOverlay = document.getElementById('listening-overlay');
+
+        // Initialize Lottie animation
+        this.lottieAnimation = lottie.loadAnimation({
+            container: document.getElementById('lottie-animation'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: false,
+            path: 'assets/animation/AI-listen-lottie.json'
+        });
 
         this.setupEventListeners();
     }
@@ -54,6 +64,12 @@ export class ChatEngine {
             this.micBtn.classList.add('recording');
             this.micBtn.style.backgroundColor = '#E91E63';
             this.micBtn.style.color = 'white';
+
+            // Show overlay and play animation
+            if (this.listeningOverlay) {
+                this.listeningOverlay.style.display = 'flex';
+                this.lottieAnimation.play();
+            }
         };
 
         this.recognition.onresult = (event) => {
@@ -85,6 +101,12 @@ export class ChatEngine {
         this.micBtn.classList.remove('recording');
         this.micBtn.style.backgroundColor = '';
         this.micBtn.style.color = '';
+
+        // Hide overlay and stop animation
+        if (this.listeningOverlay) {
+            this.listeningOverlay.style.display = 'none';
+            this.lottieAnimation.stop();
+        }
     }
 
     async handleSend() {
