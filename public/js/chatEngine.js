@@ -15,10 +15,9 @@ export class ChatEngine {
             if (e.key === 'Enter') this.handleSend();
         });
 
-        // Mic button placeholder - would need MediaRecorder implementation
-        this.micBtn.addEventListener('click', () => {
-            alert('Microphone support requires HTTPS and MediaRecorder implementation. Currently using text input.');
-        });
+        // Mic button - Web Speech API
+        this.isRecording = false;
+        this.micBtn.addEventListener('click', () => this.toggleRecording());
 
         // Desktop Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
@@ -28,6 +27,64 @@ export class ChatEngine {
                 this.micBtn.click();
             }
         });
+    }
+
+    toggleRecording() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert('Speech recognition is not supported in your browser. Please use Chrome, Edge, or Safari.');
+            return;
+        }
+
+        if (this.isRecording) {
+            this.stopRecording();
+        } else {
+            this.startRecording();
+        }
+    }
+
+    startRecording() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        this.recognition = new SpeechRecognition();
+        this.recognition.lang = 'en-US';
+        this.recognition.continuous = false;
+        this.recognition.interimResults = false;
+
+        this.recognition.onstart = () => {
+            this.isRecording = true;
+            this.micBtn.classList.add('recording');
+            this.micBtn.style.backgroundColor = '#E91E63';
+            this.micBtn.style.color = 'white';
+        };
+
+        this.recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            this.textInput.value = transcript;
+            this.handleSend();
+        };
+
+        this.recognition.onerror = (event) => {
+            console.error('Speech recognition error:', event.error);
+            this.stopRecording();
+            if (event.error !== 'no-speech') {
+                alert('Error: ' + event.error);
+            }
+        };
+
+        this.recognition.onend = () => {
+            this.stopRecording();
+        };
+
+        this.recognition.start();
+    }
+
+    stopRecording() {
+        if (this.recognition) {
+            this.recognition.stop();
+        }
+        this.isRecording = false;
+        this.micBtn.classList.remove('recording');
+        this.micBtn.style.backgroundColor = '';
+        this.micBtn.style.color = '';
     }
 
     async handleSend() {
