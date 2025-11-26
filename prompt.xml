@@ -1,9 +1,9 @@
 <Project>
   <Metadata>
-    <Name>Bella AI Companion — Gemini Pro 3 Edition</Name>
-    <Version>3.1</Version>
+    <Name>Bella AI Companion — Gemini 2.0 Flash Edition</Name>
+    <Version>3.2</Version>
     <Description>
-      Full Bella AI system using Google Gemini Pro 3 API for LLM, Vision,
+      Full Bella AI system using Google Gemini 2.0 Flash API for LLM, Vision,
       Speech, and Video generation. Includes dynamic video-expression engine,
       Material Design 3 Pink UI, no AppBar, Node.js backend, complete
       front-end integration, and full multi-device responsive design
@@ -15,21 +15,21 @@
   <!-- =========================== GEMINI CONFIG ============================ -->
 
   <GeminiAPI>
-    <Provider>Google Gemini Pro 3</Provider>
+    <Provider>Google Gemini 2.0 Flash</Provider>
     <APIKey>${GEMINI_API_KEY}</APIKey>
 
     <Models>
-      <ChatModel>gemini-pro-3</ChatModel>
-      <VisionModel>gemini-pro-3-vision</VisionModel>
-      <AudioModel>gemini-pro-3-audio</AudioModel>
-      <VideoModel>gemini-pro-3-video</VideoModel>
+      <ChatModel>gemini-2.0-flash</ChatModel>
+      <VisionModel>gemini-2.0-flash</VisionModel>
+      <AudioModel>gemini-2.0-flash</AudioModel>
+      <VideoModel>gemini-2.0-flash</VideoModel>
     </Models>
 
     <Endpoints>
-      <Chat>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3:generateContent</Chat>
-      <Vision>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-vision:generateContent</Vision>
-      <Audio>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-audio:generateContent</Audio>
-      <Video>https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-video:generateContent</Video>
+      <Chat>https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent</Chat>
+      <Vision>https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent</Vision>
+      <Audio>https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent</Audio>
+      <Video>https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent</Video>
     </Endpoints>
 
     <RequestFormat>
@@ -173,7 +173,7 @@
 
   <AILogic>
     <EmotionDetector>
-      <Source>Gemini Pro 3 (text-based emotion recognition)</Source>
+      <Source>Gemini 2.0 Flash (text-based emotion recognition)</Source>
       <MapsToVideo>true</MapsToVideo>
     </EmotionDetector>
 
@@ -196,9 +196,12 @@
 
     <Mobile>
       <Layout>
-        <Type>Single-column</Type>
-        <VideoMaxHeight>28vh</VideoMaxHeight>
-        <VideoPosition>Bottom</VideoPosition>
+        <Type>Overlay</Type>
+        <VideoFullscreen>100vh</VideoFullscreen>
+        <VideoZIndex>1</VideoZIndex>
+        <ChatPosition>Bottom</ChatPosition>
+        <ChatZIndex>2</ChatZIndex>
+        <ChatMaxHeight>70vh</ChatMaxHeight>
         <InputSticky>true</InputSticky>
       </Layout>
       <Assets>

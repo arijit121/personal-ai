@@ -1,16 +1,27 @@
-const fetch = require('node-fetch');
 require('dotenv').config();
 
 const API_KEY = process.env.GEMINI_API_KEY;
 
 const ENDPOINTS = {
-    chat: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3:generateContent',
-    vision: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-vision:generateContent',
-    audio: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-audio:generateContent',
-    video: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro-3-video:generateContent'
+    chat: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    vision: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    audio: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    video: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent'
 };
 
+// Dynamic import for node-fetch v3 (ES module)
+let fetch;
+(async () => {
+    fetch = (await import('node-fetch')).default;
+})();
+
 async function callGemini(endpointType, payload) {
+    // Wait for fetch to be loaded
+    if (!fetch) {
+        const nodeFetch = await import('node-fetch');
+        fetch = nodeFetch.default;
+    }
+
     const url = `${ENDPOINTS[endpointType]}?key=${API_KEY}`;
 
     try {
