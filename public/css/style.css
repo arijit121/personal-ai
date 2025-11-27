@@ -10,6 +10,10 @@
     --spacing-unit: 12px;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body,
 html {
     margin: 0;
@@ -59,7 +63,6 @@ video {
     flex-direction: column;
     justify-content: flex-end;
     padding: var(--spacing-unit);
-    box-sizing: border-box;
     pointer-events: none;
 }
 
@@ -75,7 +78,6 @@ video {
     flex-direction: column;
     gap: 10px;
     height: 100%;
-    box-sizing: border-box;
 }
 
 #messages-area {
@@ -135,6 +137,8 @@ video {
 
 input[type="text"] {
     flex-grow: 1;
+    min-width: 0;
+    /* Fix overflow */
     padding: 12px 20px;
     border-radius: 24px;
     border: 2px solid var(--outline);
