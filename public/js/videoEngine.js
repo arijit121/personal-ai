@@ -77,10 +77,9 @@ export class VideoEngine {
         await this.crossFadeTo(assetName);
     }
 
-    playVideo(assetName) {
+    async playVideo(assetName) {
         const path = this.getVideoPath(assetName);
-        this.mainVideo.src = path;
-        this.mainVideo.play().catch(e => console.error("Autoplay failed:", e));
+        await this.crossFadeTo(assetName);
     }
 
     async crossFadeTo(assetName) {
