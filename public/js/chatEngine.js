@@ -127,7 +127,7 @@ export class ChatEngine {
         this.addMessage(text, 'user');
 
         // Set thinking state
-        this.videoEngine.playEmotion('Thinking');
+        this.videoEngine.playVideo('thinking');
 
         try {
             const response = await fetch('/api/chat', {
@@ -140,22 +140,30 @@ export class ChatEngine {
 
             if (data.error) {
                 this.addMessage('Sorry, I encountered an error.', 'system');
-                this.videoEngine.playEmotion('Sad');
+                this.videoEngine.playEmotion('Sadness');
                 return;
             }
 
-            // Add AI response
-            this.addMessage(data.reply, 'ai');
-
-            // Change video emotion
-            if (data.emotion) {
-                this.videoEngine.playEmotion(data.emotion);
+            // 1. Play Reaction (Emotion)
+            if (data.emotion && this.videoEngine.emotionMap[data.emotion] && data.emotion !== 'Greeting') {
+                await this.videoEngine.playEmotion(data.emotion);
+                // Hold the emotion for a bit (e.g., 2 seconds)
+                await new Promise(r => setTimeout(r, 2000));
             }
+
+            // 2. Play Speech Video
+            await this.videoEngine.playVideo('speech');
+
+            // 3. Add AI Message with Typography Animation
+            await this.addMessageWithTypography(data.reply, 'ai');
+
+            // 4. Return to Idle (Greeting)
+            this.videoEngine.playVideo('hello');
 
         } catch (error) {
             console.error('Chat Error:', error);
             this.addMessage('Network error. Please try again.', 'system');
-            this.videoEngine.playEmotion('Sad');
+            this.videoEngine.playEmotion('Sadness');
         }
     }
 
@@ -172,5 +180,42 @@ export class ChatEngine {
 
         // Scroll to bottom
         this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+    }
+
+    async addMessageWithTypography(text, sender) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}`;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        // Start empty
+        bubble.textContent = '';
+
+        messageDiv.appendChild(bubble);
+        this.chatContainer.appendChild(messageDiv);
+
+        // Scroll to bottom
+        this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+
+        // Type out text
+        await this.typeText(bubble, text);
+    }
+
+    typeText(element, text) {
+        return new Promise(resolve => {
+            let index = 0;
+            const interval = setInterval(() => {
+                element.textContent += text.charAt(index);
+                index++;
+
+                // Auto scroll while typing
+                this.chatContainer.scrollTop = this.chatContainer.scrollHeight;
+
+                if (index >= text.length) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 30); // 30ms per character
+        });
     }
 }

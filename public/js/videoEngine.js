@@ -26,14 +26,31 @@ export class VideoEngine {
 
         // Emotion mapping from prompt.xml
         this.emotionMap = {
-            'Happy': ['smile-sway', 'laugh', 'affirm'],
-            'Greeting': ['hello'],
-            'Thinking': ['thinking'],
-            'Sad': ['sad'],
-            'Angry': ['angry'],
-            'Supportive': ['encourage'],
-            'Creative': ['3d'],
-            'Dance': ['dance']
+            // 24 Emotions
+            'Fear': ['sad'],
+            'Anger': ['angry'],
+            'Sadness': ['sad'],
+            'Disgust': ['angry'],
+            'Love': ['peace-sway', 'smile-sway-long1', 'smile-sway-long2'],
+            'Happiness': ['smile-sway', 'laugh', 'affirm', 'peace-sway', 'smile-sway-long1', 'smile-sway-long2'],
+            'Surprise': ['hello'],
+            'Anxiety': ['thinking'],
+            'Envy': ['angry'],
+            'Excitement': ['dance', 'peace-sway'],
+            'Disappointment': ['sad'],
+            'Enjoyment': ['smile-sway', 'laugh'],
+            'Frustration': ['angry'],
+            'Joy': ['laugh', 'smile-sway'],
+            'Shame': ['sad'],
+            'Calmness': ['smile-sway-long1', 'smile-sway-long2'],
+            'Confusion': ['thinking'],
+            'Gratitude': ['affirm', 'encourage'],
+            'Pride': ['affirm'],
+            'Amusement': ['laugh'],
+            'Bitter': ['angry'],
+            'Grief': ['sad'],
+            'Guilt': ['sad'],
+            'Relief': ['smile-sway-long1']
         };
 
         this.init();
@@ -50,7 +67,11 @@ export class VideoEngine {
 
     async playEmotion(emotion) {
         console.log(`Switching to emotion: ${emotion}`);
-        const assets = this.emotionMap[emotion] || this.emotionMap['Greeting'];
+        const assets = this.emotionMap[emotion];
+        if (!assets) {
+            console.error(`No assets found for emotion: ${emotion}`);
+            return;
+        }
         // Pick random asset if multiple
         const assetName = assets[Math.floor(Math.random() * assets.length)];
         await this.crossFadeTo(assetName);
